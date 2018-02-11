@@ -46,11 +46,13 @@ public class SimpleAliasRegistry implements AliasRegistry {
 		Assert.hasText(name, "'name' must not be empty");
 		Assert.hasText(alias, "'alias' must not be empty");
 		if (alias.equals(name)) {
+			//如果alias与beanName相同则移除alias
 			this.aliasMap.remove(alias);
 		}
 		else {
 			String registeredName = this.aliasMap.get(alias);
 			if (registeredName != null) {
+				//如果已经注册过别名处理
 				if (registeredName.equals(name)) {
 					// An existing alias - no need to re-register
 					return;
@@ -60,6 +62,7 @@ public class SimpleAliasRegistry implements AliasRegistry {
 							name + "': It is already registered for name '" + registeredName + "'.");
 				}
 			}
+			//检查是否注册过
 			checkForAliasCircle(name, alias);
 			this.aliasMap.put(alias, name);
 		}
